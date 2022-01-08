@@ -5,16 +5,43 @@
   left: 0;
   right: 0;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.images-first-row {
+.images-row {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  width: 100%;
-  gap: 0 1%;
-  height: 15%;
+  align-items: center;
+  height: 100%;
+  padding-left: 1%;
+  width: 15%;
+
   img {
-    height: 100%;
+    width: 70%;
+  }
+}
+
+.images-right-row {
+  justify-content: flex-end;
+  padding-bottom: calc(15% + 50px);
+  
+  img {
+    width: 80%;
+  }
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 100%;
+
+  > div:not(:last-child) {
+    margin-bottom: 10px;
   }
 }
 
@@ -22,23 +49,12 @@
   position: relative;
   height: 70%;
   width: 70%;
-  margin: 0 auto;
+  padding: 20px 50px 100px;
   border: 4px solid white;
   border-radius: 5vw 0 5vw 0;
   -webkit-box-shadow: 0px 0px 10px 3px $box-shadow-color;
   box-shadow: 0px 0px 10px 3px $box-shadow-color;
   overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    -webkit-box-shadow: inset 0px 0px 10px 3px $placeholder-color;
-    box-shadow: inset 0px 0px 10px 3px $placeholder-color;
-  }
 }
 
 .bot-input {
@@ -47,9 +63,10 @@
   bottom: 25px;
   display: flex;
   gap: 10px;
+  width: 80%;
  
   input {
-    width: 250px;
+    width: calc(100% - 50px);
     padding-bottom: 10px;
     border: none;
     border-bottom: 1px solid $box-shadow-color;
@@ -68,8 +85,79 @@
   }
 
   .speaker-icon {
+    border-radius: 50%;
+    height: 24px;
+    width: 24px;
     &:hover {
       color: $error-color;
     }
+  }
+}
+
+.bubble {
+  position: relative;
+  display: flex;
+  width: fit-content;
+  padding: 10px;
+  color: #fff;
+
+  &::after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    border-style: solid;
+    z-index: 1;
+  }
+
+}
+
+.user-chat-bubble {
+  background-color: $primary-color;
+  border-radius: 10px 10px 0 10px; 
+
+  &::after {
+    border-width: 0 10px 10px 0;
+    border-color: transparent $primary-color transparent transparent;
+    bottom: -10px;
+    left: calc(100% - 10px);
+  }
+}
+
+.bot-chat-bubble-container {
+  display: flex;
+  width: 100%;
+}
+
+.bot-chat-bubble {
+  background-color: $secondary-color;
+  border-width: 0 20px 20px 0;
+  border-radius: 10px 10px 10px 0;
+
+  &::after {
+    border-width: 10px 10px 0 0;
+    border-color: $secondary-color transparent transparent transparent;
+    bottom: -10px;
+    left: 0%;
+  }
+}
+
+.record {
+  color: $error-color;
+  animation-name: pulse;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0px 0px 5px 0px rgba(173, 0, 0, 0.3);
+  }
+  65% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0.3);
+  }
+  90% {
+    box-shadow: 0px 0px 5px 13px rgba(173, 0, 0, 0);
   }
 }
