@@ -13,7 +13,6 @@ function App() {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn&apos;t support speech recognition.</span>;
   }
-  console.log(transcript);
 
   const onSpeakerClick = (event) => {
     setValue(transcript);
