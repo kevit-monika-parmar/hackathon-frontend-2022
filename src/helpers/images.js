@@ -1,13 +1,15 @@
 import ambulance from "../assets/images/ambulance-hospital.gif";
-// eslint-disable-next-line import/no-unresolved
 import add from "../assets/images/medical-add.gif";
-// eslint-disable-next-line import/no-unresolved
 import medical from "../assets/images/search-doctor.gif";
+import doctors from "../assets/images/doctors.gif";
+import cassie from "../assets/images/cassie.gif";
 
 const images = {
   ambulance,
   add,
   medical,
+  doctors,
+  cassie,
 };
 
 export default images;
