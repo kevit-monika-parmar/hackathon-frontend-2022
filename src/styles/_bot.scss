@@ -7,8 +7,15 @@
   width: 100%;
 }
 
-.ambulance-gif {
-  height: 200px;
+.images-first-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  gap: 0 1%;
+  height: 15%;
+  img {
+    height: 100%;
+  }
 }
 
 .bot-container {
@@ -16,7 +23,7 @@
   height: 70%;
   width: 70%;
   margin: 0 auto;
-  border: 2px solid white;
+  border: 4px solid white;
   border-radius: 5vw 0 5vw 0;
   -webkit-box-shadow: 0px 0px 10px 3px $box-shadow-color;
   box-shadow: 0px 0px 10px 3px $box-shadow-color;
@@ -37,8 +44,32 @@
 .bot-input {
   position: absolute;
   right: 5vw;
-  bottom: 5px;
-  border-bottom: 1px solid $box-shadow-color;
-  border: none;
-  outline: none;
+  bottom: 25px;
+  display: flex;
+  gap: 10px;
+ 
+  input {
+    width: 250px;
+    padding-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid $box-shadow-color;
+    outline: none;
+  }
+
+  .material-icons-round {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .send-icon {
+    color: $primary-color;
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  .speaker-icon {
+    &:hover {
+      color: $error-color;
+    }
+  }
 }
