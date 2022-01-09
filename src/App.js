@@ -57,13 +57,11 @@ function App() {
         text: value,
         type: "message",
       };
-      setChat([...chat, { from: "bot", message: "..." }]);
       const botMessageResponse = await botApiService.activitySend(
         data,
         conversationId
       );
       if (botMessageResponse) {
-        chat.pop();
         setChat([
           ...chat,
           { from: "bot", message: botMessageResponse?.data?.text },
@@ -102,23 +100,12 @@ function App() {
 
   useEffect(async () => {
     const res = await botApiService.getBotConversations();
-    //  console.log(res?.data?.data);
     setBotUserId(res?.data?.data?.botUserId);
     setConversationId(res?.data?.data?.conversationId);
-
-    const socketUrl = res?.data?.data?.streamUrl;
-    const socket = new WebSocket(socketUrl);
-    socket.onopen = () => {
-      //  console.log("Socket connected");
-    };
-    socket.onmessage = (e) => {
-      console.log(e, "hfhfhfgh");
-    };
   }, []);
 
   useEffect(() => {
     if (transcript?.toString().trim().length > 0) {
-      console.log(transcript);
       setValue(transcript);
     }
   }, [transcript]);
