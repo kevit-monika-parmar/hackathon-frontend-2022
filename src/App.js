@@ -34,13 +34,16 @@ function App() {
       text: inputRef.current.value,
       type: "message",
     };
-    setChat([...chat, { from: "user", message: inputRef.current.value }]);
+    setChat((oldArray) => [
+      ...oldArray,
+      { from: "user", message: inputRef.current.value },
+    ]);
     const botMessageResponse = await botApiService.activitySend(
       data,
       conversationId
     );
-    setChat([
-      ...chat,
+    setChat((oldArray) => [
+      ...oldArray,
       { from: "bot", message: botMessageResponse?.data?.text },
     ]);
     speechSynthesis.speak(botMessageResponse?.data?.text);
@@ -49,7 +52,10 @@ function App() {
   const onInputKeyPress = async (e) => {
     if (e.key === "Enter" && e.target.value.toString().trim().length > 0) {
       setValue(e.target.value);
-      setChat([...chat, { from: "user", message: e.target.value }]);
+      setChat((oldArray) => [
+        ...oldArray,
+        { from: "user", message: e.target.value },
+      ]);
       const data = {
         from: {
           id: botUserId,
@@ -62,8 +68,11 @@ function App() {
         conversationId
       );
       if (botMessageResponse) {
-        setChat([
-          ...chat,
+        document.getElementById("textInput").value = "";
+        setValue("");
+
+        setChat((oldArray) => [
+          ...oldArray,
           { from: "bot", message: botMessageResponse?.data?.text },
         ]);
       }
@@ -126,6 +135,7 @@ function App() {
           <div className="bot-input">
             <input
               ref={inputRef}
+              id="textInput"
               placeholder="Type your query.."
               onChange={(event) => setValue(event.target.value)}
               onKeyPress={onInputKeyPress}
