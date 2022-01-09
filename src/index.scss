@@ -16,7 +16,12 @@ code {
     monospace;
 }
 
+input {
+  font-size: $input;
+  color: $field-color;
+}
+
 input::placeholder {
-  font: $input;
+  font-size: $placeholder;
   color: $placeholder-color;
 }
