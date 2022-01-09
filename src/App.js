@@ -11,7 +11,7 @@ function App() {
   const [botUserId, setBotUserId] = useState("");
   const [conversationId, setConversationId] = useState("");
   const { transcript, listening, browserSupportsSpeechRecognition } =
-    useSpeechRecognition();
+      useSpeechRecognition();
   const [value, setValue] = useState("");
 
   const speech = new SpeechSynthesisUtterance();
@@ -34,13 +34,16 @@ function App() {
       text: inputRef.current.value,
       type: "message",
     };
-    setChat([...chat, { from: "user", message: inputRef.current.value }]);
+    setChat((oldArray) => [
+      ...oldArray,
+      { from: "user", message: inputRef.current.value },
+    ]);
     const botMessageResponse = await botApiService.activitySend(
       data,
       conversationId
     );
-    setChat([
-      ...chat,
+    setChat((oldArray) => [
+      ...oldArray,
       { from: "bot", message: botMessageResponse?.data?.text },
     ]);
     speechSynthesis.speak(botMessageResponse?.data?.text);
@@ -49,7 +52,10 @@ function App() {
   const onInputKeyPress = async (e) => {
     if (e.key === "Enter" && e.target.value.toString().trim().length > 0) {
       setValue(e.target.value);
-      setChat([...chat, { from: "user", message: e.target.value }]);
+      setChat((oldArray) => [
+        ...oldArray,
+        { from: "user", message: e.target.value },
+      ]);
       const data = {
         from: {
           id: botUserId,
@@ -62,8 +68,11 @@ function App() {
         conversationId
       );
       if (botMessageResponse) {
-        setChat([
-          ...chat,
+        document.getElementById("textInput").value = "";
+        setValue("");
+
+        setChat((oldArray) => [
+          ...oldArray,
           { from: "bot", message: botMessageResponse?.data?.text },
         ]);
       }
@@ -119,40 +128,41 @@ function App() {
             {chat.length > 0 &&
               chat.map((message) =>
                 message.from === "user"
-                  ? userChat(message.message)
-                  : botChat(message.message)
-              )}
-          </div>
-          <div className="bot-input">
-            <input
-              ref={inputRef}
-              placeholder="Type your query.."
-              onChange={(event) => setValue(event.target.value)}
-              onKeyPress={onInputKeyPress}
-              value={value ?? transcript}
-            />
-            <span
-              role="button"
-              className="material-icons-round send-icon"
-              title="Send Message"
-              onClick={onSendClick}
-              onKeyPress={onSendClick}
-              tabIndex={0}
-            >
-              send
-            </span>
-            <span
-              role="button"
-              className="material-icons-round speaker-icon"
-              title="Hold to send voice message"
-              onClick={onSpeakerClick}
-              onKeyPress={onSpeakerClick}
-              tabIndex={-1}
-            >
-              keyboard_voice
-            </span>
-          </div>
-        </div>
+                    ? userChat(message.message)
+                    : botChat(message.message)
+            )}
+      </div>
+      <div className="bot-input">
+      <input
+  ref={inputRef}
+  id="textInput"
+  placeholder="Type your query.."
+  onChange={(event) => setValue(event.target.value)}
+  onKeyPress={onInputKeyPress}
+  value={value ?? transcript}
+  />
+  <span
+  role="button"
+  className="material-icons-round send-icon"
+  title="Send Message"
+  onClick={onSendClick}
+  onKeyPress={onSendClick}
+  tabIndex={0}
+      >
+      send
+      </span>
+      <span
+  role="button"
+  className="material-icons-round speaker-icon"
+  title="Hold to send voice message"
+  onClick={onSpeakerClick}
+  onKeyPress={onSpeakerClick}
+  tabIndex={-1}
+>
+  keyboard_voice
+  </span>
+  </div>
+  </div>
 
         <img src={images.cassie} className="cassie" alt="cassie" />
       </div>
